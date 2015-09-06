@@ -3,6 +3,13 @@
 \documentclass[letterpaper,12pt]{article}
 \usepackage{amsmath,amssymb,amsthm,enumitem,fourier}
 
+\newcommand{\union}{\cup}
+\newcommand{\bigunion}{\bigcup}
+\newcommand{\sect}{\cap}
+\newcommand{\bigsect}{\bigcap}
+
+\newcommand{\comp}[1]{#1^{\text{c}}}
+
 % Theorems
 \theoremstyle{definition}
 \newtheorem*{exer}{Exercise}
@@ -20,6 +27,69 @@
 
 \section*{Introduction}
 This document contains notes and exercises from~\cite{chung}.
+
+\section*{Chapter~2}
+\begin{exer}[3]
+Let \(\Omega\)~be a sample space and \(P\)~a probability measure on~\(\Omega\). Let \(A_1+\cdots+A_n=\Omega\) be a partition and \(a_1,\ldots,a_n>0\). Define
+\[Q(S)=\frac{a_1P(SA_1)+\cdots+a_nP(SA_n)}{a_1P(A_1)+\cdots+a_nP(A_n)}\qquad(S\subseteq\Omega)\]
+Then \(Q\)~is a probability measure on~\(\Omega\).
+\end{exer}
+\begin{proof}
+By unity and additivity of~\(P\),
+\[1=P(\Omega)=P(A_1+\cdots+A_n)=P(A_1)+\cdots+P(A_n)\]
+so there is at least one \(P(A_k)\ne0\) and hence \(a_kP(A_k)\ne0\). By nonnegativity of~\(P\), \(a_iP(SA_i)\ge0\) for all \(1\le i\le n\) and \(S\subseteq\Omega\). It follows (taking \(S=\Omega\)) that \(\alpha=a_1P(A_1)+\cdots+a_nP(A_n)>0\), and \(Q(S)\ge0\) for all \(S\subseteq\Omega\), so \(Q\)~is well-defined and nonnegative. Also \(Q(\Omega)=\alpha/\alpha=1\), so \(Q\)~is unital.
+
+Finally, let \(\{S_k\}\)~be a countable family of disjoint subsets of~\(\Omega\) and \(S=\sum S_k\). Then
+\begin{align*}
+\alpha Q(S)&=a_1P(SA_1)+\cdots+a_nP(SA_n)&&\\
+	&=a_1P\bigl(\,\sum S_kA_1\bigr)+\cdots+a_nP\bigl(\,\sum S_kA_n\bigr)&&\text{by distributivity}\\
+	&=a_1\sum P(S_kA_1)+\cdots+a_n\sum P(S_kA_n)&&\text{by additivity of~\(P\)}\\
+	&=\sum\bigl[a_1P(S_kA_1)+\cdots+a_nP(S_kA_n)\bigr]&&\\
+	&=\sum\alpha Q(S_k)&&\\
+	&=\alpha\sum Q(S_k)
+\end{align*}
+so \(Q(S)=\sum Q(S_k)\) and \(Q\)~is additive.
+\end{proof}
+
+\begin{exer}[6]
+Let \(\Omega\)~be a sample space, \(P_1,\ldots,P_n\) probability measures on~\(\Omega\), and \(a_1,\ldots,a_n\ge0\) with \(a_1+\cdots+a_n=1\). Then
+\[Q=a_1P_1+\cdots a_nP_n\]
+is a probability measure on~\(\Omega\).
+\end{exer}
+\begin{proof}
+By nonnegativity of each~\(P_i\), \(a_iP_i(S)\ge0\) and hence \(Q(S)\ge0\) for all \(S\subseteq\Omega\), so \(Q\)~is nonnegative. By unity of each~\(P_i\),
+\[Q(\Omega)=a_1P_1(\Omega)+\cdots+a_nP_n(\Omega)=a_1\cdot1+\cdots+a_n\cdot1=a_1+\cdots+a_n=1\]
+so \(Q\)~is unital. If \(\{S_k\}\)~is a countable family of disjoint subsets of~\(\Omega\), then by additivity of each~\(P_i\),
+\begin{align*}
+Q\bigl(\,\sum S_k\bigr)&=a_1P_1\bigl(\,\sum S_k\bigl)+\cdots+a_nP_n\bigl(\,\sum S_k\bigr)\\
+	&=a_1\sum P_1(S_k)+\cdots+a_n\sum P_n(S_k)\\
+	&=\sum\bigl[a_1P_1(S_k)+\cdots+a_nP_n(S_k)\bigr]\\
+	&=\sum Q(S_k)
+\end{align*}
+so \(Q\)~is additive.
+\end{proof}
+
+\begin{exer}[21]
+Let \(\Omega\)~be a sample space, \(P\)~a probability measure on~\(\Omega\), and \(\{A_k\}\)~a countable family of subsets of~\(\Omega\).
+\begin{enumerate}[itemsep=0pt]
+\item[(a)] If \(A_k\subseteq A_{k+1}\) for all \(k\ge1\) and \(A=\bigunion A_k\), then \(P(A)=\lim_{k\to\infty}P(A_k)\).
+\item[(b)] If \(A_k\supseteq A_{k+1}\) for all \(k\ge1\) and \(A=\bigsect A_k\), then \(P(A)=\lim_{k\to\infty}P(A_k)\).
+\end{enumerate}
+\end{exer}
+\begin{proof}
+\begin{enumerate}[itemsep=0pt]
+\item[(a)] Set \(A_0=\emptyset\). Then \(A=\sum(A_k-A_{k-1})\), so by additivity of~\(P\),
+\begin{align*}
+P(A)&=\sum P(A_k-A_{k-1})\\
+	&=\sum\bigl[P(A_k)-P(A_{k-1})\bigr]\\
+	&=\lim_{n\to\infty}\sum_{k=1}^n\bigl[P(A_k)-P(A_{k-1})\bigr]\\
+	&=\lim_{n\to\infty}P(A_n)
+\end{align*}
+\item[(b)] Observe \(\comp{A_k}\subseteq\comp{A_{k+1}}\) for all \(k\ge1\) and \(\comp{A}=\bigunion\comp{A_k}\). By part~(a),
+\[1-P(A)=P(\comp{A})=\lim_{k\to\infty}P(\comp{A_k})=\lim_{k\to\infty}\bigl[1-P(A_k)\bigr]=1-\lim_{k\to\infty}P(A_k)\]
+so \(P(A)=\lim_{k\to\infty}P(A_k)\).\qedhere
+\end{enumerate}
+\end{proof}
 
 % References
 \begin{thebibliography}{0}
